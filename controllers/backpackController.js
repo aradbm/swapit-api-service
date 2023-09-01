@@ -1,4 +1,4 @@
-const backpackModel = require("../models/backpackItem");
+const backpackModel = require("../models/backpack");
 
 // get backpack items for a user with a specific id
 const getBackPack = async (req, res) => {
