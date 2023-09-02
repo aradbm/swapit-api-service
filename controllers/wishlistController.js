@@ -17,6 +17,7 @@ const getWishList = async (req, res) => {
 };
 
 const createWishList = async (req, res) => {
+  console.log("Creating new wishlist item:", req.body);
   const wishList = req.body;
   try {
     const newWishList = await wishListModel.createWishList(wishList);

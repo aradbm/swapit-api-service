@@ -22,7 +22,6 @@ const getBackPackItem = async (req, res) => {
 };
 // create a new backpack item
 const createBackPack = async (req, res) => {
-  console.log("Creating backpack item");
   try {
     const backpack = await backpackModel.createBackPack(req.body);
     res.json(backpack);

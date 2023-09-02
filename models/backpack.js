@@ -30,20 +30,22 @@ const getBackPackItem = async (itemId) => {
 
 const createBackPack = async (itemData) => {
   console.log("Inserting backpack item:", itemData);
-
+  if (!itemData.userID) {
+    throw "No user ID provided";
+  }
   try {
     const item = await db.one(
       "INSERT INTO BackpackItems(UserID, CategoryID, Title, Description, ItemStatus, Color, Size, OriginalPrice, Price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING ItemID",
       [
-        itemData.UserID,
-        itemData.CategoryID,
-        itemData.Title,
-        itemData.Description,
+        itemData.userID,
+        itemData.category,
+        itemData.title,
+        itemData.description,
         itemData.ItemStatus,
-        itemData.Color,
-        itemData.Size,
-        itemData.OriginalPrice,
-        itemData.Price,
+        itemData.color,
+        itemData.size,
+        itemData.originalprice,
+        itemData.price,
       ]
     );
 

@@ -15,9 +15,10 @@ const getWishListById = async (userId) => {
 };
 
 const createWishList = async (itemData) => {
-  console.log("Inserting wishlist item:", itemData);
-
   try {
+    if (!itemData.UserID) {
+      throw "UserID is required to create a wishlist item";
+    }
     const item = await db.one(
       "INSERT INTO WishListItems(UserID, CategoryID, MinPrice, MaxPrice, Size, Color, Description) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING ItemID",
       [
