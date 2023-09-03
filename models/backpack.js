@@ -1,11 +1,11 @@
 const db = require("../config/db");
 
-const getBackPack = async (userId) => {
-  console.log("Fetching backpack for:", userId);
+const getBackPack = async (uid) => {
+  console.log("Fetching backpack for:", uid);
   try {
     const backpack = await db.any(
-      "SELECT * FROM BackpackItems WHERE UserID = $1",
-      [userId]
+      "SELECT * FROM backpackitems WHERE uid = $1",
+      [uid]
     );
     return backpack;
   } catch (error) {
@@ -14,12 +14,12 @@ const getBackPack = async (userId) => {
   }
 };
 
-const getBackPackItem = async (itemId) => {
-  console.log("Fetching backpack item:", itemId);
+const getBackPackItem = async (itemid) => {
+  console.log("Fetching backpack item:", itemid);
   try {
     const item = await db.oneOrNone(
-      "SELECT * FROM BackpackItems WHERE ItemID = $1",
-      [itemId]
+      "SELECT * FROM backpackitems WHERE itemid = $1",
+      [itemid]
     );
     return item;
   } catch (error) {
@@ -30,48 +30,52 @@ const getBackPackItem = async (itemId) => {
 
 const createBackPack = async (itemData) => {
   console.log("Inserting backpack item:", itemData);
-  if (!itemData.userID) {
+  if (!itemData.uid) {
     throw "No user ID provided";
   }
   try {
     const item = await db.one(
-      "INSERT INTO BackpackItems(UserID, CategoryID, Title, Description, ItemStatus, Color, Size, OriginalPrice, Price) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING ItemID",
+      "INSERT INTO backpackitems(uid, categoryid, title, description, itemstatus, color, size, originalprice, price, latitude, longitude) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING itemid",
       [
-        itemData.userID,
-        itemData.category,
+        itemData.uid,
+        itemData.categoryid,
         itemData.title,
         itemData.description,
-        itemData.ItemStatus,
+        itemData.itemstatus,
         itemData.color,
         itemData.size,
         itemData.originalprice,
         itemData.price,
+        itemData.latitude,
+        itemData.longitude,
       ]
     );
 
-    return item.ItemID;
+    return item.itemid;
   } catch (error) {
     console.log("Error inserting backpack item:", error);
     throw error;
   }
 };
 
-const updateBackPack = async (itemId, updateData) => {
-  console.log("Updating backpack item:", itemId);
+const updateBackPack = async (itemid, updateData) => {
+  console.log("Updating backpack item:", itemid);
 
   try {
     const item = await db.one(
-      "UPDATE BackpackItems SET CategoryID=$2, Title=$3, Description=$4, ItemStatus=$5, Color=$6, Size=$7, OriginalPrice=$8, Price=$9 WHERE ItemID = $1 RETURNING *",
+      "UPDATE backpackitems SET categoryid=$2, title=$3, description=$4, itemstatus=$5, color=$6, size=$7, originalprice=$8, price=$9, latitude=$10, longitude=$11 WHERE itemid = $1 RETURNING *",
       [
-        itemId,
-        updateData.CategoryID,
-        updateData.Title,
-        updateData.Description,
-        updateData.ItemStatus,
-        updateData.Color,
-        updateData.Size,
-        updateData.OriginalPrice,
-        updateData.Price,
+        itemid,
+        updateData.categoryid,
+        updateData.title,
+        updateData.description,
+        updateData.itemstatus,
+        updateData.color,
+        updateData.size,
+        updateData.originalprice,
+        updateData.price,
+        updateData.latitude,
+        updateData.longitude,
       ]
     );
 
@@ -82,13 +86,13 @@ const updateBackPack = async (itemId, updateData) => {
   }
 };
 
-const deleteBackPack = async (itemId) => {
-  console.log("Deleting backpack item:", itemId);
+const deleteBackPack = async (itemid) => {
+  console.log("Deleting backpack item:", itemid);
 
   try {
     const item = await db.oneOrNone(
-      "DELETE FROM BackpackItems WHERE ItemID = $1 RETURNING *",
-      [itemId]
+      "DELETE FROM BackpackItems WHERE itemid = $1 RETURNING *",
+      [itemid]
     );
     return item;
   } catch (error) {

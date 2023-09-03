@@ -4,9 +4,7 @@ const db = require("../config/db");
 const getUserById = async (id) => {
   console.log("Fetching user:", id);
   try {
-    const user = await db.oneOrNone("SELECT * FROM Users WHERE UserID = $1", [
-      id,
-    ]);
+    const user = await db.oneOrNone("SELECT * FROM users WHERE uid = $1", [id]);
     return user;
   } catch (error) {
     console.log(error);
@@ -14,28 +12,23 @@ const getUserById = async (id) => {
   }
 };
 
+// On first login, add a user to the database usingg only the UID
 const addUser = async (user) => {
   console.log("Inserting user:", user);
 
-  if (
-    !user ||
-    !user.UserID ||
-    !user.UserName ||
-    !user.LastLogin ||
-    !user.UserStatus
-  ) {
+  if (!user || !user.uid) {
     throw new Error("Invalid user data");
   }
 
   try {
     const result = await db.one(
-      'INSERT INTO "users"(UserID, UserName, LastLogin, UserStatus) VALUES($1, $2, $3, $4) RETURNING UserID',
-      [user.UserID, user.UserName, user.LastLogin, user.UserStatus]
+      'INSERT INTO "users"(uid) VALUES($1) RETURNING *',
+      [user.uid]
     );
 
     console.log("Result from DB insert:", result);
-
-    return result.userid;
+    // return the new user
+    return result;
   } catch (error) {
     console.log("Error inserting user:", error);
 

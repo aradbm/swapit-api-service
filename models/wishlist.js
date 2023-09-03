@@ -1,11 +1,11 @@
 const db = require("../config/db");
 
-const getWishListById = async (userId) => {
-  console.log("Fetching wishlist for:", userId);
+const getWishListById = async (uid) => {
+  console.log("Fetching wishlist for:", uid);
   try {
     const wishList = await db.any(
-      "SELECT * FROM WishListItems WHERE UserID = $1",
-      [userId]
+      "SELECT * FROM wishlistitems WHERE uid = $1",
+      [uid]
     );
     return wishList;
   } catch (error) {
@@ -16,43 +16,46 @@ const getWishListById = async (userId) => {
 
 const createWishList = async (itemData) => {
   try {
-    if (!itemData.UserID) {
-      throw "UserID is required to create a wishlist item";
+    if (!itemData.uid) {
+      throw "uid is required to create a wishlist item";
     }
     const item = await db.one(
-      "INSERT INTO WishListItems(UserID, CategoryID, MinPrice, MaxPrice, Size, Color, Description) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING ItemID",
+      "INSERT INTO WishListItems(uid, categoryid, minprice, maxprice, size, color, description, latitude, longitude) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING itemid",
       [
-        itemData.UserID,
-        itemData.CategoryID,
-        itemData.MinPrice,
-        itemData.MaxPrice,
-        itemData.Size,
-        itemData.Color,
-        itemData.Description,
+        itemData.uid,
+        itemData.categoryid,
+        itemData.minprice,
+        itemData.maxprice,
+        itemData.size,
+        itemData.color,
+        itemData.description,
+        itemData.latitude, // added latitude
+        itemData.longitude, // added longitude
       ]
     );
-
-    return item.ItemID;
+    return item.itemid;
   } catch (error) {
     console.log("Error inserting wishlist item:", error);
     throw error;
   }
 };
 
-const updateWishList = async (itemId, updateData) => {
-  console.log("Updating wishlist item:", itemId);
+const updateWishList = async (itemid, updateData) => {
+  console.log("Updating wishlist item:", itemid);
 
   try {
     const item = await db.one(
-      "UPDATE WishListItems SET CategoryID=$2, MinPrice=$3, MaxPrice=$4, Size=$5, Color=$6, Description=$7 WHERE ItemID = $1 RETURNING *",
+      "UPDATE WishListItems SET categoryid=$2, minprice=$3, maxprice=$4, size=$5, color=$6, description=$7, latitude=$8, longitude=$9 WHERE itemid = $1 RETURNING *",
       [
-        itemId,
-        updateData.CategoryID,
-        updateData.MinPrice,
-        updateData.MaxPrice,
-        updateData.Size,
-        updateData.Color,
-        updateData.Description,
+        itemid,
+        updateData.categoryid,
+        updateData.minprice,
+        updateData.maxprice,
+        updateData.size,
+        updateData.color,
+        updateData.description,
+        updateData.latitude, // added latitude
+        updateData.longitude, // added longitude
       ]
     );
 
@@ -63,13 +66,13 @@ const updateWishList = async (itemId, updateData) => {
   }
 };
 
-const deleteWishList = async (itemId) => {
-  console.log("Deleting wishlist item:", itemId);
+const deleteWishList = async (itemid) => {
+  console.log("Deleting wishlist item:", itemid);
 
   try {
     const item = await db.oneOrNone(
-      "DELETE FROM WishListItems WHERE ItemID = $1 RETURNING *",
-      [itemId]
+      "DELETE FROM WishListItems WHERE itemid = $1 RETURNING *",
+      [itemid]
     );
     return item;
   } catch (error) {
