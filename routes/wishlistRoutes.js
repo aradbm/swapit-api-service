@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const wishListController = require("../controllers/wishListController");
+const wishListController = require("../controllers/wishlistController");
 // get all wishlists for a user by id
 router.get("/wishlists/:id", wishListController.getWishList);
 // create a new wishlist item for a user by id

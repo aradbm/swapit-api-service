@@ -79,7 +79,7 @@ const updateBackPack = async (itemid, updateData) => {
       ]
     );
 
-    return item;
+    return item.id;
   } catch (error) {
     console.log("Error updating backpack item:", error);
     throw error;

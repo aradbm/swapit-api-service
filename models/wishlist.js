@@ -42,10 +42,27 @@ const createWishList = async (itemData) => {
 
 const updateWishList = async (itemid, updateData) => {
   console.log("Updating wishlist item:", itemid);
+  console.log("New wishlist item data:", updateData);
 
+  // Check if the item exists
+  try {
+    const existingItem = await db.oneOrNone(
+      "SELECT * FROM wishlistitems WHERE itemid = $1",
+      [itemid]
+    );
+    if (!existingItem) {
+      console.log(`Item with itemid ${itemid} does not exist.`);
+      return null;
+    }
+  } catch (error) {
+    console.log("Error checking item existence:", error);
+    throw error;
+  }
+
+  // Update the item
   try {
     const item = await db.one(
-      "UPDATE WishListItems SET categoryid=$2, minprice=$3, maxprice=$4, size=$5, color=$6, description=$7, latitude=$8, longitude=$9 WHERE itemid = $1 RETURNING *",
+      "UPDATE wishlistitems SET categoryid=$2, minprice=$3, maxprice=$4, size=$5, color=$6, description=$7, latitude=$8, longitude=$9 WHERE itemid = $1 RETURNING *",
       [
         itemid,
         updateData.categoryid,
@@ -54,12 +71,12 @@ const updateWishList = async (itemid, updateData) => {
         updateData.size,
         updateData.color,
         updateData.description,
-        updateData.latitude, // added latitude
-        updateData.longitude, // added longitude
+        updateData.latitude,
+        updateData.longitude,
       ]
     );
-
-    return item;
+    console.log("Updated wishlist item:", item);
+    return item.itemid;
   } catch (error) {
     console.log("Error updating wishlist item:", error);
     throw error;
