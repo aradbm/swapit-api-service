@@ -42,7 +42,6 @@ const createWishList = async (itemData) => {
 
 const updateWishList = async (itemid, updateData) => {
   console.log("Updating wishlist item:", itemid);
-  console.log("New wishlist item data:", updateData);
 
   // Check if the item exists
   try {
@@ -75,7 +74,7 @@ const updateWishList = async (itemid, updateData) => {
         updateData.longitude,
       ]
     );
-    console.log("Updated wishlist item:", item);
+    console.log("Successfuly updated wishlist item:", item.itemid);
     return item.itemid;
   } catch (error) {
     console.log("Error updating wishlist item:", error);

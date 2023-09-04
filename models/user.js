@@ -36,7 +36,31 @@ const addUser = async (user) => {
   }
 };
 
+// if user already exists, update the last login time
+const updateUser = async (userId) => {
+  console.log("Updating user:", userId);
+
+  if (!userId) {
+    throw new Error("Invalid user data");
+  }
+  try {
+    const result = await db.one(
+      'UPDATE "users" SET lastlogin = NOW() WHERE uid = $1 RETURNING *',
+      [userId]
+    );
+
+    console.log("Result from DB update:", result);
+    // return the updated user
+    return result;
+  } catch (error) {
+    console.log("Error updating user:", error);
+
+    throw error;
+  }
+};
+
 module.exports = {
   getUserById,
   addUser,
+  updateUser,
 };
