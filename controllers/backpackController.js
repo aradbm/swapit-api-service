@@ -1,4 +1,5 @@
 const backpackModel = require("../models/backpack");
+const swapcardModel = require("../models/swapcard");
 
 // get backpack items for a user with a specific id
 const getBackPack = async (req, res) => {
@@ -22,6 +23,7 @@ const getBackPackItem = async (req, res) => {
 const createBackPack = async (req, res) => {
   try {
     const backpack = await backpackModel.createBackPack(req.body);
+    swapcardModel.updateCardsByBackPack(backpack.itemid, backpack.uid);
     res.json(backpack);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -34,6 +36,7 @@ const updateBackPack = async (req, res) => {
       req.params.id,
       req.body
     );
+    await swapcardModel.updateCardsByBackPack(backpack.itemid, backpack.uid);
     res.json(backpack);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -43,6 +46,7 @@ const updateBackPack = async (req, res) => {
 const deleteBackPack = async (req, res) => {
   try {
     const backpack = await backpackModel.deleteBackPack(req.params.id);
+    swapcardModel.deleteCardsByBackPack(backpack.itemid);
     res.json(backpack);
   } catch (error) {
     res.status(500).json({ message: "Server error" });

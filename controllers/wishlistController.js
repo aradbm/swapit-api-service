@@ -1,4 +1,5 @@
 const wishListModel = require("../models/wishList");
+const swapcardModel = require("../models/swapcard");
 
 const getWishList = async (req, res) => {
   const userId = req.params.id;
@@ -20,6 +21,7 @@ const createWishList = async (req, res) => {
   const wishList = req.body;
   try {
     const newWishList = await wishListModel.createWishList(wishList);
+    swapcardModel.updateCardsByWishList(newWishList.itemid, newWishList.uid);
     res.json(newWishList);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -32,6 +34,10 @@ const updateWishList = async (req, res) => {
 
   try {
     const updatedWishList = await wishListModel.updateWishList(id, wishList);
+    swapcardModel.updateCardsByWishList(
+      updatedWishList.itemid,
+      updatedWishList.uid
+    );
     res.json(updatedWishList);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -47,6 +53,7 @@ const deleteWishList = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 module.exports = {
   getWishList,
   createWishList,
