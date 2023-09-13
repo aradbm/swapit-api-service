@@ -51,7 +51,7 @@ const createBackPack = async (itemData) => {
       ]
     );
 
-    return item.itemid;
+    return item;
   } catch (error) {
     console.log("Error inserting backpack item:", error);
     throw error;
@@ -79,7 +79,7 @@ const updateBackPack = async (itemid, updateData) => {
       ]
     );
 
-    return item.id;
+    return item;
   } catch (error) {
     console.log("Error updating backpack item:", error);
     throw error;

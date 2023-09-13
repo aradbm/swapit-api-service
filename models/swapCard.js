@@ -34,14 +34,14 @@ const updateSwapCard = async (swapCardID, boolValue) => {
 };
 
 // Function to update swap cards based on backpack item changes/creation
-const updateCardsByBackPack = async function (itemid, uid) {
+const updateCardsByBackPack = async (itemid, uid) => {
   // User added or changed a backpack item. here we update all swapcards that have that item
   // so we simply add swapcards in this way:
   // 1. find all wishlist items that match the backpack item (price in range, category, etc)
   // 2. check if the users with those wishlist items have a backpack item that matches the given uid wishlist items
   // 3. if they do, add a swapcard between the two users, with the backpack item as the item to swap
   // 4. if they don't, do nothing
-  console.log("got here");
+  console.log("updating swap cards by backpack");
   try {
     const query = `
       WITH wishlist_matches AS (
@@ -77,7 +77,7 @@ const updateCardsByBackPack = async function (itemid, uid) {
 };
 
 // Function to update swap cards based on wishlist item changes/creation
-const updateCardsByWishList = async function (itemid, uid) {
+const updateCardsByWishList = async (itemid, uid) => {
   // User added or changed a wishlist item. here we update all swapcards that have that item
   // so we simply add swapcards in this way:
   // 1. find all backpack items that match the wishlist item (price in range, category, etc)

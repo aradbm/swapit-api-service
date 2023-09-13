@@ -10,6 +10,7 @@ const getBackPack = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 // get a backpack item by id
 const getBackPackItem = async (req, res) => {
   try {
@@ -19,16 +20,22 @@ const getBackPackItem = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 // create a new backpack item
 const createBackPack = async (req, res) => {
   try {
     const backpack = await backpackModel.createBackPack(req.body);
-    swapcardModel.updateCardsByBackPack(backpack.itemid, backpack.uid);
-    res.json(backpack);
+    try {
+      await swapcardModel.updateCardsByBackPack(backpack.itemid, backpack.uid);
+    } catch (error) {
+      console.log("Error updating swapcards:", error);
+    }
+    res.json(backpack.itemid);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 // update a backpack item
 const updateBackPack = async (req, res) => {
   try {
@@ -36,17 +43,26 @@ const updateBackPack = async (req, res) => {
       req.params.id,
       req.body
     );
-    await swapcardModel.updateCardsByBackPack(backpack.itemid, backpack.uid);
-    res.json(backpack);
+    try {
+      await swapcardModel.updateCardsByBackPack(backpack.itemid, backpack.uid);
+    } catch (error) {
+      console.log("Error updating swapcards:", error);
+    }
+    res.json(backpack.itemid);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 // delete a backpack item
 const deleteBackPack = async (req, res) => {
   try {
+    try {
+      swapcardModel.deleteCardsByBackPack(req.params.id);
+    } catch (error) {
+      console.log("Error deleting swapcards:", error);
+    }
     const backpack = await backpackModel.deleteBackPack(req.params.id);
-    swapcardModel.deleteCardsByBackPack(backpack.itemid);
     res.json(backpack);
   } catch (error) {
     res.status(500).json({ message: "Server error" });

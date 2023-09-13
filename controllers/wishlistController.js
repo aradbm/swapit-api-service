@@ -21,7 +21,16 @@ const createWishList = async (req, res) => {
   const wishList = req.body;
   try {
     const newWishList = await wishListModel.createWishList(wishList);
-    swapcardModel.updateCardsByWishList(newWishList.itemid, newWishList.uid);
+
+    try {
+      await swapcardModel.updateCardsByWishList(
+        newWishList.itemid,
+        newWishList.uid
+      );
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+
     res.json(newWishList);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -34,10 +43,14 @@ const updateWishList = async (req, res) => {
 
   try {
     const updatedWishList = await wishListModel.updateWishList(id, wishList);
-    swapcardModel.updateCardsByWishList(
-      updatedWishList.itemid,
-      updatedWishList.uid
-    );
+    try {
+      await swapcardModel.updateCardsByWishList(
+        updatedWishList.itemid,
+        updatedWishList.uid
+      );
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
     res.json(updatedWishList);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
