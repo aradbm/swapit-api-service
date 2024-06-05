@@ -35,23 +35,4 @@ router.post("/users/location", userLocationController.addUserLocation);
 router.put("/users/location", userLocationController.updateUserLocation);
 router.delete("/users/location", userLocationController.deleteUserLocation);
 
-// Health check endpoint
-app.get("/health", async (req, res) => {
-  try {
-    // Check database connectivity
-    await db.query("SELECT 1");
-    // If the query succeeds, the database is connected
-    res.status(200).json({
-      status: "OK",
-      message: "Server & Postgres database are healthy",
-    });
-  } catch (error) {
-    // If the query fails, the database connection has an issue
-    console.error("Database connectivity error:", error);
-    res
-      .status(500)
-      .json({ status: "ERROR", message: "Database connectivity issue" });
-  }
-});
-
 module.exports = router;
