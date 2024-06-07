@@ -6,22 +6,27 @@ const swapCardController = require("./controllers/swapCardController");
 const userController = require("./controllers/userController");
 const wishListController = require("./controllers/wishlistController");
 const userLocationController = require("./controllers/userLocationController");
+const firebaseAuthJWT = require("./middleware/firebaseAuthMiddleware");
+
+// User routes
+router.get("/users/:id", userController.getUser);
 
 // Backpack routes
-router.get("/backpack/:id", backPackController.getBackPack);
+router.get("/backpack/:id", firebaseAuthJWT, backPackController.getBackPack);
 router.get("/backpack/item/:id", backPackController.getBackPackItem);
-router.post("/backpack", backPackController.createBackPack);
-router.put("/backpack/:id", backPackController.updateBackPack);
-router.delete("/backpack/:id", backPackController.deleteBackPack);
+router.post("/backpack", firebaseAuthJWT, backPackController.createBackPack);
+router.put("/backpack/:id", firebaseAuthJWT, backPackController.updateBackPack);
+router.delete(
+  "/backpack/:id",
+  firebaseAuthJWT,
+  backPackController.deleteBackPack
+);
 
 // Category routes
 router.get("/categories", categoryController.getAllCategories);
 
 // Swap card routes
 router.get("/swapcards/:uid", swapCardController.getSwapCards);
-
-// User routes
-router.get("/users/:id", userController.getUser);
 
 // Wishlist routes
 router.get("/wishlist/:id", wishListController.getWishList);

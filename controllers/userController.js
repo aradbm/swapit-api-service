@@ -1,32 +1,31 @@
 const UserModel = require("../models/user");
+const jwt = require("jsonwebtoken");
+require("dotenv").config(); // Load environment variables
+
+const secretKey = process.env.SECRET_KEY; // Get the secret key from environment variables
 
 const getUser = async (req, res) => {
   const userId = req.params.id;
 
   try {
     const user = await UserModel.getUserById(userId);
-    // if we got a user, than we only need to update the user's last login time
-    // else - if we got no user, we need to create a new user
     if (user) {
       const updatedUser = await UserModel.updateUser(userId);
       if (updatedUser) {
-        res.json(updatedUser);
+        // Generate a JWT token
+        const token = jwt.sign({ userId: updatedUser.uid }, secretKey);
+        res.json({ user: updatedUser, token });
       } else {
         res.status(400).json({ message: "Unable to update user" });
       }
     } else {
-      // if we got an id but no user, that means the user was not found in the database and need to create a user
-      if (userId) {
-        const newUser = await UserModel.addUser({ uid: userId });
-        if (newUser) {
-          res.json(newUser);
-        } else {
-          res.status(400).json({ message: "Unable to create user" });
-        }
-      }
-      // if we got no id, that means the user is not logged in
-      else {
-        res.status(400).json({ message: "User not logged in" });
+      const newUser = await UserModel.addUser({ uid: userId });
+      if (newUser) {
+        // Generate a JWT token
+        const token = jwt.sign({ userId: newUser.uid }, secretKey);
+        res.json({ user: newUser, token });
+      } else {
+        res.status(400).json({ message: "Unable to create user" });
       }
     }
   } catch (error) {
