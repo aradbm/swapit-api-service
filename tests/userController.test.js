@@ -32,8 +32,10 @@ describe("User Controller", () => {
     });
   });
 
-  it("should return an error if the user does not exist", async () => {
-    UserModel.getUserById.mockResolvedValue(null);
+  it("should get an existing user", async () => {
+    const mockUser = { uid: "123", lastlogin: new Date() };
+    UserModel.getUserById.mockResolvedValue(mockUser);
+    UserModel.updateUser.mockResolvedValue(mockUser);
 
     const req = { params: { id: "123" } };
     const res = {
@@ -44,7 +46,10 @@ describe("User Controller", () => {
     await userController.getUser(req, res);
 
     expect(UserModel.getUserById).toHaveBeenCalledWith("123");
-    expect(res.status).toHaveBeenCalledWith(400); // Bad Request
-    expect(res.json).toHaveBeenCalledWith({ message: "Unable to create user" });
+    expect(UserModel.updateUser).toHaveBeenCalledWith("123");
+    expect(res.json).toHaveBeenCalledWith({
+      user: mockUser,
+      token: expect.any(String),
+    });
   });
 });
