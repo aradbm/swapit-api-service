@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("../config/postgresDB");
 
 const getBackPack = async (uid) => {
   console.log("Fetching backpack for:", uid);

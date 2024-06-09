@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("../config/postgresDB");
 
 // Function to get a user by ID
 const getUserById = async (id) => {

@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("../config/postgresDB");
 const getLocationById = async (id) => {
   console.log("Fetching location:", id);
   try {

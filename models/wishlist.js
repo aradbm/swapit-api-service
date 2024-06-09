@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("../config/postgresDB");
 
 const getWishListById = async (uid) => {
   console.log("Fetching wishlist for:", uid);
