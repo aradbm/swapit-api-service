@@ -1,4 +1,4 @@
-const wishListModel = require("../models/wishList");
+const wishListModel = require("../models/wishlist");
 const swapcardModel = require("../models/swapcard");
 
 const getWishList = async (req, res) => {
