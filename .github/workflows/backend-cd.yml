@@ -10,12 +10,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    env:
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      EC2_PUBLIC_IP: ${{ secrets.EC2_PUBLIC_IP }}
-      EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
-      PATH_TO_REPO: /home/ec2-user/code/swapit-server
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -23,11 +17,11 @@ jobs:
       - name: SSH into EC2 instance
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ env.EC2_PUBLIC_IP }}
-          username: ${{ env.EC2_USERNAME }}
-          key: ${{ env.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.EC2_PUBLIC_IP }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ${{ env.PATH_TO_REPO }}
+            cd /home/ec2-user/code/swapit-server
             git pull
             npm ci
             npm run build
