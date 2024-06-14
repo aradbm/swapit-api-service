@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-and-deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -26,5 +27,4 @@ jobs:
             npm ci
             npm run build
             docker-compose down
-            docker-compose build
-            docker-compose up -d
+            docker-compose up build
