@@ -18,16 +18,15 @@ app.get("/health", async (req, res) => {
     // Check Redis connectivity, set and get key Arad
     await redisClient.set("test", "success");
     const testRes = await redisClient.get("test");
-    console.log("testRes", testRes);
-    // Check if Redis key is set
     if (testRes !== "success") {
       throw new Error("Redis key test is not set");
     }
 
-    res.status(200).json({
-      status: "OK",
-      message: "Server, database, and Redis are all connected",
-    });
+    res.status(200).send(
+      "<div style='display: flex; justify-content: center; align-items: center;'> \
+        Server, database, and Redis are all connected \
+        </div>"
+    );
   } catch (error) {
     console.error("Connectivity error:", error);
     res.status(500).json({ status: "ERROR", message: "Connectivity issue" });
