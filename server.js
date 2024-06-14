@@ -35,6 +35,15 @@ app.get("/health", async (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  // have html with a boton, when pressed it goes to api/categories
+  res.send(
+    "<div style='display: flex; justify-content: center; align-items: center;'> \
+      <a href='/api/categories'>Go to categories</a> \
+    </div>"
+  );
+});
+
 const startServer = async () => {
   try {
     await initializeRedis();
