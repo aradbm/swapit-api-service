@@ -23,9 +23,17 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/ec2-user/code/swapit-server
-            git pull
+            git pull || exit 1
             npm ci
             npm run build
+
+            docker --version
+            sudo systemctl status docker
+            sudo systemctl start docker
+            sudo usermod -aG docker $USER
+            ls -l /var/run/docker.sock
+            docker-compose --version
+
             docker-compose down
             docker-compose build --no-cache
             docker-compose up -d
