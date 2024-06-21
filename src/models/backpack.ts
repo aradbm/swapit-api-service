@@ -1,6 +1,21 @@
-const db = require("../config/postgresDB");
+import db from "../config/postgresDB";
 
-const getBackPack = async (uid) => {
+interface BackpackItem {
+  itemid: string;
+  uid: string;
+  categoryid: string;
+  title: string;
+  description: string;
+  itemstatus: string;
+  color: string;
+  size: string;
+  originalprice: number;
+  price: number;
+  latitude: number;
+  longitude: number;
+}
+
+const getBackPack = async (uid: string) => {
   console.log("Fetching backpack for:", uid);
   try {
     const backpack = await db.any(
@@ -14,7 +29,7 @@ const getBackPack = async (uid) => {
   }
 };
 
-const getBackPackItem = async (itemid) => {
+const getBackPackItem = async (itemid: string) => {
   console.log("Fetching backpack item:", itemid);
   try {
     const item = await db.oneOrNone(
@@ -28,7 +43,7 @@ const getBackPackItem = async (itemid) => {
   }
 };
 
-const createBackPack = async (itemData) => {
+const createBackPack = async (itemData: BackpackItem) => {
   console.log("Inserting backpack item:", itemData);
   if (!itemData.uid) {
     throw "No user ID provided";
@@ -58,7 +73,7 @@ const createBackPack = async (itemData) => {
   }
 };
 
-const updateBackPack = async (itemid, updateData) => {
+const updateBackPack = async (itemid: string, updateData: BackpackItem) => {
   console.log("Updating backpack item:", itemid);
 
   try {
@@ -86,7 +101,7 @@ const updateBackPack = async (itemid, updateData) => {
   }
 };
 
-const deleteBackPack = async (itemid) => {
+const deleteBackPack = async (itemid: string) => {
   console.log("Deleting backpack item:", itemid);
 
   try {

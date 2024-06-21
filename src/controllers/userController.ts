@@ -1,10 +1,12 @@
-const UserModel = require("../models/user");
+import UserModel from "../models/user";
 const jwt = require("jsonwebtoken");
 require("dotenv").config(); // Load environment variables
+import { Request, Response } from "express";
+
 
 const secretKey = process.env.SECRET_KEY; // Get the secret key from environment variables
 
-const getUser = async (req, res) => {
+const getUser = async (req : Request, res : Response) => {
   const userId = req.params.id;
 
   try {
@@ -19,7 +21,7 @@ const getUser = async (req, res) => {
         res.status(400).json({ message: "Unable to update user" });
       }
     } else {
-      const newUser = await UserModel.addUser({ uid: userId });
+      const newUser = await UserModel.addUser( userId );
       if (newUser) {
         // Generate a JWT token
         const token = jwt.sign({ userId: newUser.uid }, secretKey);
@@ -33,6 +35,6 @@ const getUser = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getUser,
 };

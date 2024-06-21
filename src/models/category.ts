@@ -1,4 +1,4 @@
-const db = require("../config/postgresDB");
+import db from "../config/postgresDB";
 
 const getCategories = async () => {
   try {
@@ -10,6 +10,6 @@ const getCategories = async () => {
   }
 };
 
-module.exports = {
+export default {
   getCategories,
 };

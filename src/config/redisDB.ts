@@ -9,7 +9,7 @@ const redisClient = redis.createClient({
   },
 });
 
-redisClient.on("error", (err) => {
+redisClient.on("error", (err: Error) => {
   console.error("Redis connection error:", err);
   process.exit(1);
 });
@@ -22,4 +22,4 @@ async function initializeRedis() {
   await redisClient.connect();
 }
 
-module.exports = { redisClient, initializeRedis };
+export { redisClient, initializeRedis };

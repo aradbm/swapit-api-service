@@ -1,8 +1,9 @@
 const backpackModel = require("../models/backpack");
 const swapcardModel = require("../models/swapcard");
+import { Request, Response } from "express";
 
 // get backpack items for a user with a specific id
-const getBackPack = async (req, res) => {
+const getBackPack = async (req : Request, res : Response) => {
   try {
     const backpack = await backpackModel.getBackPack(req.params.id);
     res.json(backpack);
@@ -12,7 +13,7 @@ const getBackPack = async (req, res) => {
 };
 
 // get a backpack item by id
-const getBackPackItem = async (req, res) => {
+const getBackPackItem = async (req : Request, res : Response) => {
   try {
     const backpack = await backpackModel.getBackPackItem(req.params.id);
     res.json(backpack);
@@ -22,7 +23,7 @@ const getBackPackItem = async (req, res) => {
 };
 
 // create a new backpack item
-const createBackPack = async (req, res) => {
+const createBackPack = async (req : Request, res : Response) => {
   try {
     const backpack = await backpackModel.createBackPack(req.body);
     try {
@@ -37,7 +38,7 @@ const createBackPack = async (req, res) => {
 };
 
 // update a backpack item
-const updateBackPack = async (req, res) => {
+const updateBackPack = async (req : Request, res : Response) => {
   try {
     const backpack = await backpackModel.updateBackPack(
       req.params.id,
@@ -55,7 +56,7 @@ const updateBackPack = async (req, res) => {
 };
 
 // delete a backpack item
-const deleteBackPack = async (req, res) => {
+const deleteBackPack = async (req : Request, res : Response) => {
   try {
     try {
       swapcardModel.deleteCardsByBackPack(req.params.id);
@@ -69,7 +70,7 @@ const deleteBackPack = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getBackPack,
   getBackPackItem,
   createBackPack,

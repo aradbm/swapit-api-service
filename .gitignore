@@ -1,8 +1,11 @@
 *node_modules
 dump.sql
-swapit-app-942b1-firebase-adminsdk-5lvyi-f5eb27ccb6.json
-.env
 file_list.py
 .DS_Store
 *.pem
 *.sh
+/keys
+/aws
+/dist
+.env
+service-account.json

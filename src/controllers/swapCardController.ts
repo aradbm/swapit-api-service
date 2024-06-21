@@ -1,9 +1,10 @@
-const swapCardModel = require("../models/swapcard");
+import swapcardModel from "../models/swapcard";
+import { Request, Response } from "express";
 
-const getSwapCards = async (req, res) => {
+const getSwapCards = async (req: Request, res: Response) => {
   try {
     const uid = req.params.uid;
-    const swapCards = await swapCardModel.getSwapCardsByUser(uid);
+    const swapCards = await swapcardModel.getSwapCardsByUser(uid);
     if (!swapCards) {
       return res.status(500).json({ error: "Could not retrieve swap cards" });
     }
@@ -14,6 +15,6 @@ const getSwapCards = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getSwapCards,
 };

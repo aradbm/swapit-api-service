@@ -1,7 +1,8 @@
-const wishListModel = require("../models/wishlist");
-const swapcardModel = require("../models/swapcard");
+import wishListModel from "../models/wishlist";
+import swapcardModel from "../models/swapcard";
+import { Request, Response } from "express";
 
-const getWishList = async (req, res) => {
+const getWishList = async (req : Request, res : Response) => {
   const userId = req.params.id;
 
   try {
@@ -17,7 +18,7 @@ const getWishList = async (req, res) => {
   }
 };
 
-const createWishList = async (req, res) => {
+const createWishList = async (req : Request, res : Response) => {
   const wishList = req.body;
   try {
     const newWishList = await wishListModel.createWishList(wishList);
@@ -37,7 +38,7 @@ const createWishList = async (req, res) => {
   }
 };
 
-const updateWishList = async (req, res) => {
+const updateWishList = async (req : Request, res : Response) => {
   const wishList = req.body;
   const id = req.params.id;
 
@@ -56,7 +57,7 @@ const updateWishList = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-const deleteWishList = async (req, res) => {
+const deleteWishList = async (req : Request, res : Response) => {
   const id = req.params.id;
 
   try {
@@ -67,7 +68,7 @@ const deleteWishList = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getWishList,
   createWishList,
   updateWishList,

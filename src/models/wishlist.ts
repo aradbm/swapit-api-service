@@ -1,6 +1,19 @@
-const db = require("../config/postgresDB");
+import db from "../config/postgresDB";
 
-const getWishListById = async (uid) => {
+type WishListItem = {
+  itemid: string;
+  uid: string;
+  categoryid: number;
+  minprice: number;
+  maxprice: number;
+  size: string;
+  color: string;
+  description: string;
+  latitude: number; // added latitude
+  longitude: number; // added longitude
+};
+
+const getWishListById = async (uid: string): Promise<WishListItem[]> => {
   console.log("Fetching wishlist for:", uid);
   try {
     const wishList = await db.any(
@@ -14,7 +27,7 @@ const getWishListById = async (uid) => {
   }
 };
 
-const createWishList = async (itemData) => {
+const createWishList = async (itemData: WishListItem) => {
   try {
     if (!itemData.uid) {
       throw "uid is required to create a wishlist item";
@@ -40,7 +53,7 @@ const createWishList = async (itemData) => {
   }
 };
 
-const updateWishList = async (itemid, updateData) => {
+const updateWishList = async (itemid: string, updateData: WishListItem) => {
   console.log("Updating wishlist item:", itemid);
 
   // Check if the item exists
@@ -82,7 +95,7 @@ const updateWishList = async (itemid, updateData) => {
   }
 };
 
-const deleteWishList = async (itemid) => {
+const deleteWishList = async (itemid: string) => {
   console.log("Deleting wishlist item:", itemid);
 
   try {
@@ -97,7 +110,7 @@ const deleteWishList = async (itemid) => {
   }
 };
 
-module.exports = {
+export default {
   getWishListById,
   createWishList,
   updateWishList,

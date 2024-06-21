@@ -1,6 +1,7 @@
-const locationModel = require("../models/userLocation.js");
+import locationModel from "../models/userLocation";
+import { Request, Response } from "express";
 
-const getUserLocation = async (req, res) => {
+const getUserLocation = async (req: Request, res: Response) => {
   const userId = req.params.id;
 
   try {
@@ -11,7 +12,7 @@ const getUserLocation = async (req, res) => {
   }
 };
 
-const addUserLocation = async (req, res) => {
+const addUserLocation = async (req : Request, res : Response) => {
   const location = req.body;
 
   try {
@@ -22,7 +23,7 @@ const addUserLocation = async (req, res) => {
   }
 };
 
-const updateUserLocation = async (req, res) => {
+const updateUserLocation = async (req : Request, res : Response) => {
   const location = req.body;
 
   try {
@@ -33,7 +34,7 @@ const updateUserLocation = async (req, res) => {
   }
 };
 
-const deleteUserLocation = async (req, res) => {
+const deleteUserLocation = async (req : Request, res : Response) => {
   const location = req.body;
 
   try {
@@ -44,7 +45,7 @@ const deleteUserLocation = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getUserLocation,
   addUserLocation,
   updateUserLocation,

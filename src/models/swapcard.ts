@@ -1,6 +1,17 @@
-const db = require("../config/postgresDB");
+import db from "../config/postgresDB";
 
-const getSwapCardsByUser = async (uid) => {
+type SwapCard = {
+  id: number,
+  uid_h1: number,
+  uid_h2: number,
+  uid_h3: number,
+  bp_item1: number,
+  bp_item2: number,
+  bp_item3: number,
+  is_swapped: boolean,
+};
+
+const getSwapCardsByUser = async (uid: string) => {
   try {
     const query = `
       SELECT * FROM swapcards
@@ -16,7 +27,7 @@ const getSwapCardsByUser = async (uid) => {
 };
 
 // change value of swap card for true/false
-const updateSwapCard = async (swapCardID, boolValue) => {
+const updateSwapCard = async (swapCardID: string, boolValue: string) => {
   try {
     const query = `
       UPDATE swapcards
@@ -34,7 +45,7 @@ const updateSwapCard = async (swapCardID, boolValue) => {
 };
 
 // Function to update swap cards based on backpack item changes/creation
-const updateCardsByBackPack = async (itemid, uid) => {
+const updateCardsByBackPack = async (itemid: string, uid: string) => {
   // User added or changed a backpack item. here we update all swapcards that have that item
   // so we simply add swapcards in this way:
   // 1. find all wishlist items that match the backpack item (price in range, category, etc)
@@ -77,7 +88,7 @@ const updateCardsByBackPack = async (itemid, uid) => {
 };
 
 // Function to update swap cards based on wishlist item changes/creation
-const updateCardsByWishList = async (itemid, uid) => {
+const updateCardsByWishList = async (itemid: string, uid: string) => {
   // User added or changed a wishlist item. here we update all swapcards that have that item
   // so we simply add swapcards in this way:
   // 1. find all backpack items that match the wishlist item (price in range, category, etc)
@@ -119,14 +130,14 @@ const updateCardsByWishList = async (itemid, uid) => {
 };
 
 // function to delete swap cards based on backpack item deletion
-const deleteCardsByBackPack = async function (itemid) {
+const deleteCardsByBackPack = async function (itemid: string) : Promise<SwapCard | null> {
   try {
     const query = `
       DELETE FROM swapcards
       WHERE bp_item1 = $1 OR bp_item2 = $1
       RETURNING *
     `;
-    const swapCard = await db.one(query, [itemid]);
+    const swapCard = await db.one(query, [itemid]) as SwapCard;
     console.log("deleting swap card by backpack item");
     return swapCard;
   } catch (error) {
@@ -135,7 +146,7 @@ const deleteCardsByBackPack = async function (itemid) {
   }
 };
 
-module.exports = {
+export default {
   getSwapCardsByUser,
   updateSwapCard,
   updateCardsByBackPack,

@@ -1,6 +1,8 @@
-const UserModel = require("../models/category");
+import UserModel from "../models/category";
 const { redisClient } = require("../config/redisDB");
-const getAllCategories = async (req, res) => {
+import { Request, Response } from "express";
+
+const getAllCategories = async (req : Request, res : Response) => {
   console.log("Fetching all categories...");
   try {
     const categoriesCache = await redisClient.get("categories");
@@ -24,6 +26,7 @@ const getAllCategories = async (req, res) => {
   }
 };
 
-module.exports = {
+
+export default {
   getAllCategories,
 };

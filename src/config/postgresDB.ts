@@ -10,4 +10,5 @@ const connectionString = {
 };
 
 const db = pgp(connectionString);
-module.exports = db;
+
+export default db;

@@ -1,12 +1,18 @@
-const admin = require("../config/firebase.js");
+import firebaseAdmin from "../config/firebase";
+import { Request, Response, NextFunction } from "express";
 
-const firebaseAuthMiddleware = async (req, res, next) => {
+export interface CustomRequest extends Request {
+  token: string | null;
+ }
+ 
+
+const firebaseAuth = async (req: Request, res: Response, next: NextFunction ) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const idToken = authHeader.split(" ")[1];
     try {
-      const decodedToken = await admin.auth().verifyIdToken(idToken);
-      req.user = decodedToken;
+      const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken);
+      (req as CustomRequest).token = decodedToken.uid;
       next();
     } catch (error) {
       console.error("Error verifying Firebase ID token:", error);
@@ -18,4 +24,4 @@ const firebaseAuthMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = firebaseAuthMiddleware;
+export default firebaseAuth;

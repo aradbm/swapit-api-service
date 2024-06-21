@@ -1,8 +1,9 @@
 const express = require("express");
 const db = require("./config/postgresDB");
 const bodyParser = require("body-parser");
-const apiRoutes = require("./apiRoutes");
-const { redisClient, initializeRedis } = require("./config/redisDB");
+import apiRoutes from "./apiRoutes";
+import { Request, Response } from 'express'
+import { redisClient, initializeRedis } from "./config/redisDB";
 
 const app = express();
 const PORT = 3000;
@@ -11,7 +12,7 @@ app.use(bodyParser.json());
 app.use("/api", apiRoutes);
 
 // Health check endpoint
-app.get("/health", async (req, res) => {
+app.get("/health", async (req: Request, res: Response) => {
   try {
     // Check postgres connectivity
     await db.query("SELECT 1");
@@ -35,7 +36,7 @@ app.get("/health", async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   // have html with a boton, when pressed it goes to api/categories
   res.send(
     "<div style='display: flex; justify-content: center; align-items: center;'> \
