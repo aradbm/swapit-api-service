@@ -5,7 +5,6 @@ import swapCardController from "./controllers/swapCardController";
 import userController from "./controllers/userController";
 import wishListController from "./controllers/wishlistController";
 import userLocationController from "./controllers/userLocationController";
-import firebaseAuth from "./middleware/firebaseAuthMiddleware";
 
 const router: Router = Router();
 
@@ -13,15 +12,11 @@ const router: Router = Router();
 router.get("/users/:id", userController.getUser);
 
 // Backpack routes
-router.get("/backpack/:id", firebaseAuth, backPackController.getBackPack);
+router.get("/backpack/:id", backPackController.getBackPack);
 router.get("/backpack/item/:id", backPackController.getBackPackItem);
-router.post("/backpack", firebaseAuth, backPackController.createBackPack);
-router.put("/backpack/:id", firebaseAuth, backPackController.updateBackPack);
-router.delete(
-  "/backpack/:id",
-  firebaseAuth,
-  backPackController.deleteBackPack
-);
+router.post("/backpack", backPackController.createBackPack);
+router.put("/backpack/:id", backPackController.updateBackPack);
+router.delete("/backpack/:id",backPackController.deleteBackPack);
 
 // Category routes
 router.get("/categories", categoryController.getAllCategories);
