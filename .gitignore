@@ -6,6 +6,5 @@ file_list.py
 *.sh
 /keys
 /aws
-/dist
 .env
 service-account.json
