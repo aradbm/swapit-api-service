@@ -29,6 +29,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const admin = __importStar(require("firebase-admin"));
 const service_account_json_1 = __importDefault(require("../../service-account.json"));
 const firebaseAdmin = admin.initializeApp({
-    credential: admin.credential.cert(service_account_json_1.default.toString()),
+    credential: admin.credential.cert(service_account_json_1.default),
 });
 exports.default = firebaseAdmin;
