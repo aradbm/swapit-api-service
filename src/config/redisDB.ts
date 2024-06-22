@@ -1,4 +1,4 @@
-const redis = require("redis");
+import * as redis from "redis";
 
 // const redisUrl = "redis://redis:6379";
 

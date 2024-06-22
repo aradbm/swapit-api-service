@@ -43,7 +43,7 @@ const addLocation = async (location: Location) => {
 
 // ... (The rest of your functions will be similar)
 
-const updateLocation = async (locatio: Location) => {
+const updateLocation = async (location: Location) => {
   console.log("Updating location:", location);
 
 };

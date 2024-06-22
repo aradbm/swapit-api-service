@@ -40,7 +40,7 @@ const addLocation = (location) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 // ... (The rest of your functions will be similar)
-const updateLocation = (locatio) => __awaiter(void 0, void 0, void 0, function* () {
+const updateLocation = (location) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Updating location:", location);
 });
 const deleteLocation = (location) => __awaiter(void 0, void 0, void 0, function* () {

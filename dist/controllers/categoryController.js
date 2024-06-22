@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const category_1 = __importDefault(require("../models/category"));
-const { redisClient } = require("../config/redisDB");
+const redisDB_1 = require("../config/redisDB");
 const getAllCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Fetching all categories...");
     try {
-        const categoriesCache = yield redisClient.get("categories");
+        const categoriesCache = yield redisDB_1.redisClient.get("categories");
         if (categoriesCache) {
             console.log("Categories fetched from cache");
             return res.json(JSON.parse(categoriesCache));
@@ -27,7 +27,7 @@ const getAllCategories = (req, res) => __awaiter(void 0, void 0, void 0, functio
             return res.status(500).json({ message: "Server error" });
         }
         // set cache for 10 minutes
-        redisClient.setEx("categories", 600, JSON.stringify(categories));
+        redisDB_1.redisClient.setEx("categories", 600, JSON.stringify(categories));
         console.log("Categories fetched successfully");
         res.json(categories);
     }

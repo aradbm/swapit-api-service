@@ -116,7 +116,7 @@ const deleteBackPack = async (itemid: string) => {
   }
 };
 
-module.exports = {
+export default {
   getBackPack,
   getBackPackItem,
   createBackPack,

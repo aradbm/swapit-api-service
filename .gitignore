@@ -8,3 +8,4 @@ file_list.py
 /aws
 .env
 service-account.json
+docker-compose.dev.yaml

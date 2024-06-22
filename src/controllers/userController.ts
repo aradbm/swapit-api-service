@@ -1,10 +1,16 @@
 import UserModel from "../models/user";
-const jwt = require("jsonwebtoken");
-require("dotenv").config(); // Load environment variables
+// const jwt = require("jsonwebtoken");
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import { Request, Response } from "express";
 
 
+dotenv.config();
 const secretKey = process.env.SECRET_KEY; // Get the secret key from environment variables
+
+if (!secretKey) {
+  throw new Error('SECRET_KEY is not defined in the environment variables');
+}
 
 const getUser = async (req : Request, res : Response) => {
   const userId = req.params.id;

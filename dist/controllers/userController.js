@@ -13,9 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../models/user"));
-const jwt = require("jsonwebtoken");
-require("dotenv").config(); // Load environment variables
+// const jwt = require("jsonwebtoken");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const secretKey = process.env.SECRET_KEY; // Get the secret key from environment variables
+if (!secretKey) {
+    throw new Error('SECRET_KEY is not defined in the environment variables');
+}
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.id;
     try {
@@ -24,7 +29,7 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const updatedUser = yield user_1.default.updateUser(userId);
             if (updatedUser) {
                 // Generate a JWT token
-                const token = jwt.sign({ userId: updatedUser.uid }, secretKey);
+                const token = jsonwebtoken_1.default.sign({ userId: updatedUser.uid }, secretKey);
                 res.json({ user: updatedUser, token });
             }
             else {
@@ -35,7 +40,7 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const newUser = yield user_1.default.addUser(userId);
             if (newUser) {
                 // Generate a JWT token
-                const token = jwt.sign({ userId: newUser.uid }, secretKey);
+                const token = jsonwebtoken_1.default.sign({ userId: newUser.uid }, secretKey);
                 res.json({ user: newUser, token });
             }
             else {

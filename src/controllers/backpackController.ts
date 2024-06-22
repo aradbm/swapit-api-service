@@ -1,5 +1,5 @@
-const backpackModel = require("../models/backpack");
-const swapcardModel = require("../models/swapcard");
+import backpackModel from "../models/backpack";
+import swapcardModel from "../models/swapcard";
 import { Request, Response } from "express";
 
 // get backpack items for a user with a specific id

@@ -95,7 +95,7 @@ const deleteBackPack = (itemid) => __awaiter(void 0, void 0, void 0, function* (
         throw error;
     }
 });
-module.exports = {
+exports.default = {
     getBackPack,
     getBackPackItem,
     createBackPack,

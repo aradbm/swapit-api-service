@@ -8,13 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const backpackModel = require("../models/backpack");
-const swapcardModel = require("../models/swapcard");
+const backpack_1 = __importDefault(require("../models/backpack"));
+const swapcard_1 = __importDefault(require("../models/swapcard"));
 // get backpack items for a user with a specific id
 const getBackPack = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const backpack = yield backpackModel.getBackPack(req.params.id);
+        const backpack = yield backpack_1.default.getBackPack(req.params.id);
         res.json(backpack);
     }
     catch (error) {
@@ -24,7 +27,7 @@ const getBackPack = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 // get a backpack item by id
 const getBackPackItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const backpack = yield backpackModel.getBackPackItem(req.params.id);
+        const backpack = yield backpack_1.default.getBackPackItem(req.params.id);
         res.json(backpack);
     }
     catch (error) {
@@ -34,9 +37,9 @@ const getBackPackItem = (req, res) => __awaiter(void 0, void 0, void 0, function
 // create a new backpack item
 const createBackPack = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const backpack = yield backpackModel.createBackPack(req.body);
+        const backpack = yield backpack_1.default.createBackPack(req.body);
         try {
-            yield swapcardModel.updateCardsByBackPack(backpack.itemid, backpack.uid);
+            yield swapcard_1.default.updateCardsByBackPack(backpack.itemid, backpack.uid);
         }
         catch (error) {
             console.log("Error updating swapcards:", error);
@@ -50,9 +53,9 @@ const createBackPack = (req, res) => __awaiter(void 0, void 0, void 0, function*
 // update a backpack item
 const updateBackPack = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const backpack = yield backpackModel.updateBackPack(req.params.id, req.body);
+        const backpack = yield backpack_1.default.updateBackPack(req.params.id, req.body);
         try {
-            yield swapcardModel.updateCardsByBackPack(backpack.itemid, backpack.uid);
+            yield swapcard_1.default.updateCardsByBackPack(backpack.itemid, backpack.uid);
         }
         catch (error) {
             console.log("Error updating swapcards:", error);
@@ -67,12 +70,12 @@ const updateBackPack = (req, res) => __awaiter(void 0, void 0, void 0, function*
 const deleteBackPack = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         try {
-            swapcardModel.deleteCardsByBackPack(req.params.id);
+            swapcard_1.default.deleteCardsByBackPack(req.params.id);
         }
         catch (error) {
             console.log("Error deleting swapcards:", error);
         }
-        const backpack = yield backpackModel.deleteBackPack(req.params.id);
+        const backpack = yield backpack_1.default.deleteBackPack(req.params.id);
         res.json(backpack);
     }
     catch (error) {

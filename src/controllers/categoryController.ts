@@ -1,5 +1,5 @@
 import UserModel from "../models/category";
-const { redisClient } = require("../config/redisDB");
+import { redisClient } from "../config/redisDB";
 import { Request, Response } from "express";
 
 const getAllCategories = async (req : Request, res : Response) => {
