@@ -22,13 +22,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const admin = __importStar(require("firebase-admin"));
-const service_account_json_1 = __importDefault(require("../../service-account.json"));
+/* eslint-disable @typescript-eslint/no-var-requires */
+const serviceAccount = require("../../service-account.json");
 const firebaseAdmin = admin.initializeApp({
-    credential: admin.credential.cert(service_account_json_1.default),
+    credential: admin.credential.cert(serviceAccount),
 });
 exports.default = firebaseAdmin;

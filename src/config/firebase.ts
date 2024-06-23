@@ -1,5 +1,8 @@
 import * as admin from "firebase-admin";
-import serviceAccount from "../../service-account.json";
+/* eslint-disable @typescript-eslint/no-var-requires */
+const serviceAccount = require("../../service-account.json");
+
+
 
 const firebaseAdmin = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),

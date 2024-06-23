@@ -10,11 +10,12 @@ const swapCardController_1 = __importDefault(require("./controllers/swapCardCont
 const userController_1 = __importDefault(require("./controllers/userController"));
 const wishlistController_1 = __importDefault(require("./controllers/wishlistController"));
 const userLocationController_1 = __importDefault(require("./controllers/userLocationController"));
+const firebaseAuthMiddleware_1 = __importDefault(require("./middleware/firebaseAuthMiddleware"));
 const router = (0, express_1.Router)();
 // User routes
 router.get("/users/:id", userController_1.default.getUser);
 // Backpack routes
-router.get("/backpack/:id", backpackController_1.default.getBackPack);
+router.get("/backpack/:id", firebaseAuthMiddleware_1.default, backpackController_1.default.getBackPack);
 router.get("/backpack/item/:id", backpackController_1.default.getBackPackItem);
 router.post("/backpack", backpackController_1.default.createBackPack);
 router.put("/backpack/:id", backpackController_1.default.updateBackPack);

@@ -11,7 +11,7 @@ const firebaseAuth = async (req: Request, res: Response, next: NextFunction ) =>
   if (authHeader) {
     const idToken = authHeader.split(" ")[1];
     try {
-      const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken);
+      const decodedToken = await firebaseAdmin!.auth().verifyIdToken(idToken);
       (req as CustomRequest).token = decodedToken.uid;
       next();
     } catch (error) {
