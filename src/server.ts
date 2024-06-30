@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 import apiRoutes from "./apiRoutes";
 import baseRoutes from "./baseRoutes";
 import { initializeRedis } from "./config/redisDB";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const PORT = 3000;

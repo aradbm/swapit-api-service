@@ -1,4 +1,4 @@
-import{ Router } from "express";
+import { Router } from "express";
 import backPackController from "./controllers/backpackController";
 import categoryController from "./controllers/categoryController";
 import swapCardController from "./controllers/swapCardController";
@@ -6,17 +6,18 @@ import userController from "./controllers/userController";
 import wishListController from "./controllers/wishlistController";
 import userLocationController from "./controllers/userLocationController";
 import firebaseAuth from "./middleware/firebaseAuthMiddleware";
+import S3Controller from "./controllers/s3Controller";
 const router: Router = Router();
 
 // User routes
 router.get("/users/:id", userController.getUser);
 
 // Backpack routes
-router.get("/backpack/:id", firebaseAuth ,backPackController.getBackPack);
+router.get("/backpack/:id", firebaseAuth, backPackController.getBackPack);
 router.get("/backpack/item/:id", backPackController.getBackPackItem);
 router.post("/backpack", backPackController.createBackPack);
 router.put("/backpack/:id", backPackController.updateBackPack);
-router.delete("/backpack/:id",backPackController.deleteBackPack);
+router.delete("/backpack/:id", backPackController.deleteBackPack);
 
 // Category routes
 router.get("/categories", categoryController.getAllCategories);
@@ -36,5 +37,7 @@ router.post("/users/location", userLocationController.addUserLocation);
 router.put("/users/location", userLocationController.updateUserLocation);
 router.delete("/users/location", userLocationController.deleteUserLocation);
 
+// Upload to S3 routes
+router.get("/s3-upload-url/:itemId", S3Controller.generateUploadUrl);
 
 export default router;

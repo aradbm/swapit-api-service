@@ -8,15 +8,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const router = (0, express_1.Router)();
-const db = require("./config/postgresDB");
+// const db = require("./config/postgresDB");
+const postgresDB_1 = __importDefault(require("./config/postgresDB"));
 const redisDB_1 = require("./config/redisDB");
 router.get("/health", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Check postgres connectivity
-        yield db.query("SELECT 1");
+        yield postgresDB_1.default.query("SELECT 1");
         // Check Redis connectivity, set and get key Arad
         yield redisDB_1.redisClient.set("test", "success");
         const testRes = yield redisDB_1.redisClient.get("test");

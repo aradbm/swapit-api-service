@@ -11,6 +11,7 @@ const userController_1 = __importDefault(require("./controllers/userController")
 const wishlistController_1 = __importDefault(require("./controllers/wishlistController"));
 const userLocationController_1 = __importDefault(require("./controllers/userLocationController"));
 const firebaseAuthMiddleware_1 = __importDefault(require("./middleware/firebaseAuthMiddleware"));
+const s3Controller_1 = __importDefault(require("./controllers/s3Controller"));
 const router = (0, express_1.Router)();
 // User routes
 router.get("/users/:id", userController_1.default.getUser);
@@ -34,4 +35,6 @@ router.get("/users/:id/location", userLocationController_1.default.getUserLocati
 router.post("/users/location", userLocationController_1.default.addUserLocation);
 router.put("/users/location", userLocationController_1.default.updateUserLocation);
 router.delete("/users/location", userLocationController_1.default.deleteUserLocation);
+// Upload to S3 routes
+router.get("/s3-upload-url/:itemId", s3Controller_1.default.generateUploadUrl);
 exports.default = router;

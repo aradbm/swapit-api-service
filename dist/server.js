@@ -17,6 +17,8 @@ const bodyParser = require("body-parser");
 const apiRoutes_1 = __importDefault(require("./apiRoutes"));
 const baseRoutes_1 = __importDefault(require("./baseRoutes"));
 const redisDB_1 = require("./config/redisDB");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const app = express();
 const PORT = 3000;
 app.use(bodyParser.json());
